@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:src="@drawable/lk"
+            android:layout_margin="20dp"
+            android:background="@drawable/border"
+            android:padding="3dp"
+            android:id="@+id/imvFotoEscollir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside" />
+
+        <ImageView
+            android:id="@+id/imvImatgeAnterior"
+            android:scaleType="fitCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/imvFotoEscollir"
+            android:layout_marginLeft="-20dp"
+            android:src="@drawable/fletxa" />
+
+        <ImageView
+            android:id="@+id/imvImatgeSeguent"
+            android:scaleType="fitCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-20dp"
+            android:layout_alignRight="@+id/imvFotoEscollir"
+            android:scaleX="-1"
+            android:src="@drawable/fletxa" />
+
+        <ImageView
+            android:id="@+id/imvVisualitzarPersonatge"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:background="@drawable/rodona"
+            android:layout_marginRight="-15dp"
+            android:layout_marginTop="-15dp"
+            android:layout_alignTop="@+id/imvFotoEscollir"
+            android:layout_alignRight="@+id/imvFotoEscollir"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <EditText
+            android:id="@+id/edtDescripcio"
+            android:padding="5dp"
+            android:layout_margin="20dp"
+            android:lines="5"
+            android:gravity="center_vertical"
+            android:background="@drawable/border"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/imvNouPersonatge"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@android:drawable/ic_menu_add"
+            android:background="@drawable/rodona"
+            android:layout_marginRight="-15dp"
+            android:layout_marginBottom="-15dp"
+            android:layout_alignBottom="@+id/edtDescripcio"
+            android:layout_alignRight="@+id/edtDescripcio"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

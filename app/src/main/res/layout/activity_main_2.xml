@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llyVisualitzacio"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/verd"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:id="@+id/llyImatgeFons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/fons_orgrimar"
+        android:orientation="horizontal">
+
+        <include
+            layout="@layout/visualitzar1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.5" />
+
+        <include
+            layout="@layout/visualitzar2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

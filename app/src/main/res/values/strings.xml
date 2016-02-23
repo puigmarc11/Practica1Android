@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pac1</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="strength">STRENGTH</string>
+    <string name="dexterity">DEXTERITY</string>
+    <string name="constitution">CONSTITUTION</string>
+    <string name="intelligence">INTELLIGENCE</string>
+    <string name="wisdom">WISDOM</string>
+    <string name="charisma">CHARISMA</string>
+
+</resources>

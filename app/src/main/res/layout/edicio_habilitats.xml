@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp"
+    android:stretchColumns="1">
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/strength" />
+
+        <SeekBar
+            android:max="100"
+            android:id="@+id/sbStrenght"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:theme="@android:style/Theme.Black"
+            style="@android:style/Widget.SeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/dexterity" />
+
+        <SeekBar
+            android:max="100"
+            android:id="@+id/sbDexterity"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:theme="@android:style/Theme.Black"
+            style="@android:style/Widget.SeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/constitution" />
+
+        <SeekBar
+            android:max="100"
+            android:id="@+id/sbConstitution"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:theme="@android:style/Theme.Black"
+            style="@android:style/Widget.SeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/intelligence" />
+
+        <SeekBar
+            android:max="100"
+            android:id="@+id/sbIntelligence"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:theme="@android:style/Theme.Black"
+            style="@android:style/Widget.SeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/wisdom" />
+
+        <SeekBar
+            android:max="100"
+            android:id="@+id/sbWisdom"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:theme="@android:style/Theme.Black"
+            style="@android:style/Widget.SeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/charisma" />
+
+        <SeekBar
+            android:max="100"
+            android:id="@+id/sbCharisma"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:theme="@android:style/Theme.Black"
+            style="@android:style/Widget.SeekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+</TableLayout>

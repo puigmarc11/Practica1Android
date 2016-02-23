@@ -1,0 +1,121 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/fons2"
+    android:padding="10dp"
+    tools:context=".MainActivity">
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/strength"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:padding="1dp"
+            android:id="@+id/llyStrength"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dexterity"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:padding="1dp"
+            android:id="@+id/llyDexterity"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/constitution"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:padding="1dp"
+            android:id="@+id/llyConstitution"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/intelligence"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:padding="1dp"
+            android:id="@+id/llyIntelligence"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wisdom"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/llyWisdom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+        </LinearLayout>
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/charisma"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:padding="1dp"
+            android:id="@+id/llyCharisma"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </TableRow>
+</TableLayout>
