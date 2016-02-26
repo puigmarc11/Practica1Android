@@ -88,11 +88,6 @@ public class Imatge {
         return llistaFiltrada;
     }
 
-
-    public List<Imatge> getLlistaImatges(){
-        return llistaImatges;
-    }
-
     public Imatge(Sexe mSexe, Rasa mRasa, int mImageResourceId) {
         this.mSexe = mSexe;
         this.mRasa = mRasa;

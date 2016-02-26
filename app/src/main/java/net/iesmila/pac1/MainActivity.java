@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
     private SeekBar mSbCharisma;
 
     ListIterator<Personatge> lItPersonatge;
-    int CanviSentitPersonatge = 1;
+    int CanviSentitPersonatge = -1;
 
     ListIterator<Imatge> lItImatge;
     int CanviSentitImatge = -1;
@@ -123,7 +123,7 @@ public class MainActivity extends ActionBarActivity {
         mImvAnteriorImatge.setOnClickListener(seguentImatge);
         mImvSeguentImatge.setOnClickListener(seguentImatge);
 
-        mEdtNom.addTextChangedListener(new EditableTextWatcher(mEdtNom));
+        //mEdtNom.addTextChangedListener(new EditableTextWatcher(mEdtNom));
         mEdtDescripcio.addTextChangedListener(new EditableTextWatcher(mEdtDescripcio));
 
         mRgGenere.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -133,7 +133,6 @@ public class MainActivity extends ActionBarActivity {
                 PersonatgeActual.setSexe(Sexe.valueOf(rdoSelected.getText().toString().toUpperCase()));
                 carregarImatges(PersonatgeActual.getSexe(), PersonatgeActual.getRasa());
             }
-
         });
 
         mRgTipus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -173,6 +172,8 @@ public class MainActivity extends ActionBarActivity {
                 Personatge p = new Personatge();
                 PersonatgeNou = true;
                 //Iniciem el personatge amb dades per no tenir problemes de NullPointer...
+                //Aquest personatge encara no s'afegeix a la llista per evitar crear molts personatges seguits.
+                //s'afegira a la llista un cop haguem introduit un nom.
                 p.setSexe(Sexe.MALE);
                 p.setRasa(Rasa.getRasaPerCodi(1, Alignment.ALLIANCE));
                 p.setOfici(Ofici.getOficiPerCodi(1));
@@ -198,15 +199,21 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    private void iniciarAplicacio() {
+        mLlistaPersonatges = Personatge.getPersonatges();
+        lItPersonatge = mLlistaPersonatges.listIterator();
+        carregarSpinnerOfici();
+        mostrarPersonatge(lItPersonatge.next());
+    }
+
     private void carregarImatges(Sexe mSexe, Rasa mRasa) {
 
         mLlistaImatges = Imatge.getImages(mSexe, mRasa);
-        Log.i("Llista length", String.valueOf(mLlistaImatges.size()));
         if (mLlistaImatges.size() > 1) {
             lItImatge = mLlistaImatges.listIterator();
             CanviSentitImatge = -1;
             mImvSeguentImatge.performClick();
-        }else if (mLlistaImatges.size() == 1){
+        } else if (mLlistaImatges.size() == 1) {
             //Optimitzacio per si la llista d'imatges només en té una
             mImvFotoPersonatge.setImageResource(mLlistaImatges.get(0).getImageResourceId());
             PersonatgeActual.setImage(mLlistaImatges.get(0).getImageResourceId());
@@ -217,19 +224,11 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void iniciarAplicacio() {
-        mLlistaPersonatges = Personatge.getPersonatges();
-        lItPersonatge = mLlistaPersonatges.listIterator();
-        carregarSpinnerOfici();
-        mostrarPersonatge(lItPersonatge.next());
-    }
-
+    //Carrega els oficis al Spinner
     private void carregarSpinnerOfici() {
-
         mLlistaOfici = new ArrayList<>(Ofici.getOficis());
-        ArrayAdapter<Ofici> adapterLlistaTipus1 = new ArrayAdapter<>(this, android.R.layout.preference_category, mLlistaOfici);
-        mSpnOfici.setAdapter(adapterLlistaTipus1);
-
+        ArrayAdapter<Ofici> adapterLlistaOficis = new ArrayAdapter<>(this, android.R.layout.preference_category, mLlistaOfici);
+        mSpnOfici.setAdapter(adapterLlistaOficis);
     }
 
     private void carregarSpinnerRasa(RadioButton i) {
@@ -254,28 +253,24 @@ public class MainActivity extends ActionBarActivity {
 
     private void mostrarPersonatge(Personatge p) {
 
-
         PersonatgeActual = p;
 
         if (PersonatgeActual.getNom() != null) {
             mEdtNom.setText(PersonatgeActual.getNom());
-            Log.i("Personatge ", p.getNom());
+        } else {
+            mEdtNom.setText("");
         }
-        ;
 
-        if (PersonatgeActual.getSexe() != null) {
-            switch (p.getSexe()) {
-                case MALE:
-                    mRdbMale.setChecked(true);
-                    break;
-                case FEMALE:
-                    mRdbFemale.setChecked(true);
-                    break;
-                case OTHER:
-                    mRdbOther.setChecked(true);
-                    break;
-            }
-            Log.i("Sexe ", p.getSexe().toString());
+        switch (p.getSexe()) {
+            case MALE:
+                mRdbMale.setChecked(true);
+                break;
+            case FEMALE:
+                mRdbFemale.setChecked(true);
+                break;
+            case OTHER:
+                mRdbOther.setChecked(true);
+                break;
         }
 
         if (PersonatgeActual.getRasa() != null) {
@@ -289,16 +284,12 @@ public class MainActivity extends ActionBarActivity {
                 case HORDE:
                     mRdbHorde.setChecked(true);
                     break;
+
             }
             mSpnRasa.setSelection(mLlistaRases.indexOf(PersonatgeActual.getRasa()));
-            Log.i("Rasa ", "Rasa: " + p.getRasa().getRasa() + "Alignment: " + p.getAlignement().toString());
         }
 
-        if (PersonatgeActual.getOfici() != null) {
-            mSpnOfici.setSelection(mLlistaOfici.indexOf(PersonatgeActual.getOfici()));
-        } else {
-            mSpnOfici.setSelection(mLlistaOfici.indexOf(Ofici.getOficiPerCodi(1)));
-        }
+        mSpnOfici.setSelection(mLlistaOfici.indexOf(PersonatgeActual.getOfici()));
 
         mSbStrenght.setProgress(p.getStrength());
         mSbDexterity.setProgress(p.getDexterity());
@@ -307,12 +298,17 @@ public class MainActivity extends ActionBarActivity {
         mSbWisdom.setProgress(p.getWisdom());
         mSbCharisma.setProgress(p.getCharisma());
 
+        Log.i("Personatge", "Actual Imatge: " + PersonatgeActual.getImage());
+
         mImvFotoPersonatge.setImageResource(PersonatgeActual.getImage());
 
         mEdtDescripcio.setText(p.getDescription());
 
     }
 
+    //Classe per canviar de personatges.
+    //Conte un flag per saber si és canvia la direcció del llistat(Hem de realitzar un doble next//previous
+    //Si s'arriva a un dels dos extrems es torna a generar l'itarador. O bé pel principi de la llista o bé per el final. Serveix per tenir la llista circular.
     class SeguentPersonatge implements View.OnClickListener {
 
         @Override
@@ -323,6 +319,8 @@ public class MainActivity extends ActionBarActivity {
 
             switch (view.getId()) {
                 case R.id.imvSeguentPersonatge:
+
+                    if (CanviSentitPersonatge == -1) CanviSentitPersonatge = 1;
 
                     if (lItPersonatge.hasNext()) {
                         if (CanviSentitPersonatge == 0) {
@@ -337,10 +335,11 @@ public class MainActivity extends ActionBarActivity {
                         lItPersonatge = mLlistaPersonatges.listIterator();
                         mostrarPersonatge(lItPersonatge.next());
                     }
-
                     break;
 
                 case R.id.imvAnteriorPersonatge:
+
+                    if (CanviSentitPersonatge == -1) CanviSentitPersonatge = 0;
 
                     if (lItPersonatge.hasPrevious()) {
                         if (CanviSentitPersonatge == 1) {
@@ -361,22 +360,16 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    //Classe per canviar d'imatges de la llista per escollir.
+    //Funciona similar que la del personatge, però separades per diferènciar còdi.
     class SeguentImatge implements View.OnClickListener {
-
-        //TODO En canviar de sentit no guarda imatge...
-        //TODO Icone i fons Neutral
-        //TODO Personatge.setImage a Zero
-        //TODO Layout Nom no ha de ser dinàmic
-        //TODO Fotos de les rases
 
         @Override
         public void onClick(View view) {
 
-            if (lItImatge == null) return;
-            if(mLlistaImatges.size() == 1){
-                Log.i("Llista","La llista no te més personatges....");
-                return;
-            }
+            //Evitem recorre el switch si no hi ha imatges, o bé si la llista només en té una.
+            if (lItImatge == null || mLlistaImatges.size() == 1 ) return;
+
             int imatge = 0; //Per inicialitzar la variable
             Boolean reiniciarIterator = false;
 
@@ -386,12 +379,12 @@ public class MainActivity extends ActionBarActivity {
                     if (CanviSentitImatge == -1) CanviSentitImatge = 1;
 
                     if (lItImatge.hasNext()) {
-                        if (CanviSentitPersonatge == 0) {
-                            CanviSentitPersonatge = 1;
+                        if (CanviSentitImatge == 0) {
+                            CanviSentitImatge = 1;
                             imatge = lItImatge.next().getImageResourceId();
                             if (lItImatge.hasNext()) imatge = lItImatge.next().getImageResourceId();
                             else reiniciarIterator = true;
-                        } else  imatge = lItImatge.next().getImageResourceId();
+                        } else imatge = lItImatge.next().getImageResourceId();
                     } else reiniciarIterator = true;
 
                     if (reiniciarIterator) {
@@ -405,12 +398,13 @@ public class MainActivity extends ActionBarActivity {
                     if (CanviSentitImatge == -1) CanviSentitImatge = 0;
 
                     if (lItImatge.hasPrevious()) {
-                        if (CanviSentitPersonatge == 1) {
-                            CanviSentitPersonatge = 0;
+                        if (CanviSentitImatge == 1) {
+                            CanviSentitImatge = 0;
                             imatge = lItImatge.previous().getImageResourceId();
-                            if (lItImatge.hasPrevious()) imatge = lItImatge.previous().getImageResourceId();
+                            if (lItImatge.hasPrevious())
+                                imatge = lItImatge.previous().getImageResourceId();
                             else reiniciarIterator = true;
-                        } else  imatge = lItImatge.previous().getImageResourceId();
+                        } else imatge = lItImatge.previous().getImageResourceId();
                     } else reiniciarIterator = true;
 
                     if (reiniciarIterator) {
@@ -422,9 +416,11 @@ public class MainActivity extends ActionBarActivity {
 
             mImvFotoPersonatge.setImageResource(imatge);
             PersonatgeActual.setImage(imatge);
+            Log.i("Personatge","Llista Imatge: " + imatge);
         }
     }
 
+    //Classe Per actualitzar les barres d'habilitats
     class EstadistiquesPersonatge implements SeekBar.OnSeekBarChangeListener {
 
         private int nivell;
@@ -465,6 +461,9 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    //Classe per actualitzar els spinners de ofici i rasa
+    //També s'actualitza indirectament l'alignment ja que aquest va lligat a la rasa i només és gestiona en
+    //un lloc per no tenir conflictes d'events
     class ItemSpinner implements AdapterView.OnItemSelectedListener {
 
         @Override
@@ -485,10 +484,10 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-
         }
     }
 
+    //Classe per actualitzar el nom i la descripció del personatge
     class EditableTextWatcher implements TextWatcher {
 
         private int Id;
