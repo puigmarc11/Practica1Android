@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -67,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
     private SeekBar mSbCharisma;
 
     ListIterator<Personatge> lItPersonatge;
-    int CanviSentitPersonatge = -1;
+    int CanviSentitPersonatge = 1;
 
     ListIterator<Imatge> lItImatge;
     int CanviSentitImatge = -1;
@@ -112,10 +113,12 @@ public class MainActivity extends ActionBarActivity {
 
     private void DefinirEvntsDeLesView() {
 
+        //Fletxes per canviar de personatge
         SeguentPersonatge Seguent = new SeguentPersonatge();
         mImvAnteriorPersonatge.setOnClickListener(Seguent);
         mImvSeguentPersonatge.setOnClickListener(Seguent);
 
+        //Fletxes per canviar d'imatges
         SeguentImatge seguentImatge = new SeguentImatge();
         mImvAnteriorImatge.setOnClickListener(seguentImatge);
         mImvSeguentImatge.setOnClickListener(seguentImatge);
@@ -128,6 +131,7 @@ public class MainActivity extends ActionBarActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton rdoSelected = (RadioButton) findViewById(i);
                 PersonatgeActual.setSexe(Sexe.valueOf(rdoSelected.getText().toString().toUpperCase()));
+                carregarImatges(PersonatgeActual.getSexe(), PersonatgeActual.getRasa());
             }
 
         });
@@ -151,22 +155,27 @@ public class MainActivity extends ActionBarActivity {
         mSbWisdom.setOnSeekBarChangeListener(estadistiquesPersonatge);
         mSbCharisma.setOnSeekBarChangeListener(estadistiquesPersonatge);
 
+        //Envent per llençar el nou Activity
         mImvVisualitzarPersonatge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ActivityVisualitzar av = new ActivityVisualitzar();
-                Intent intent = new Intent(MainActivity.this, av.getClass());
+                Intent intent = new Intent(MainActivity.this, ActivityVisualitzar.class);
                 intent.putExtra("Personatge", PersonatgeActual);
                 startActivity(intent);
             }
         });
 
-
+        //Crear un nou personatge
         mImvNouPersonatge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Personatge p = new Personatge();
                 PersonatgeNou = true;
+                //Iniciem el personatge amb dades per no tenir problemes de NullPointer...
+                p.setSexe(Sexe.MALE);
+                p.setRasa(Rasa.getRasaPerCodi(1, Alignment.ALLIANCE));
+                p.setOfici(Ofici.getOficiPerCodi(1));
                 mostrarPersonatge(p);
             }
         });
@@ -185,32 +194,40 @@ public class MainActivity extends ActionBarActivity {
         //Definim els events
         DefinirEvntsDeLesView();
 
-        mLlistaPersonatges = Personatge.getPersonatges();
-        lItPersonatge = mLlistaPersonatges.listIterator();
-        mLlistaImatges = Imatge.getImatges();
-        lItImatge = mLlistaImatges.listIterator();
-
         iniciarAplicacio();
 
     }
 
-    private void iniciarAplicacio() {
-        carregarSpinnerOfici();
-       // mImvFotoPersonatge.setImageResource(R.drawable.lk);
-        mostrarPersonatge(lItPersonatge.next());
+    private void carregarImatges(Sexe mSexe, Rasa mRasa) {
 
+        mLlistaImatges = Imatge.getImages(mSexe, mRasa);
+        Log.i("Llista length", String.valueOf(mLlistaImatges.size()));
+        if (mLlistaImatges.size() > 1) {
+            lItImatge = mLlistaImatges.listIterator();
+            CanviSentitImatge = -1;
+            mImvSeguentImatge.performClick();
+        }else if (mLlistaImatges.size() == 1){
+            //Optimitzacio per si la llista d'imatges només en té una
+            mImvFotoPersonatge.setImageResource(mLlistaImatges.get(0).getImageResourceId());
+            PersonatgeActual.setImage(mLlistaImatges.get(0).getImageResourceId());
+        } else {
+            lItImatge = null;
+            PersonatgeActual.setImage(0);
+            mImvFotoPersonatge.setImageResource(0);
+        }
+    }
+
+    private void iniciarAplicacio() {
+        mLlistaPersonatges = Personatge.getPersonatges();
+        lItPersonatge = mLlistaPersonatges.listIterator();
+        carregarSpinnerOfici();
+        mostrarPersonatge(lItPersonatge.next());
     }
 
     private void carregarSpinnerOfici() {
 
         mLlistaOfici = new ArrayList<>(Ofici.getOficis());
-
-        ArrayAdapter<Ofici> adapterLlistaTipus1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mLlistaOfici);
-        String prompt = "Selecciona..";
-
-        //mSpnOfici.setAdapter(new NothingSelectedSpinnerAdapter(prompt, adapterLlistaTipus1, R.layout.contact_spinner_row_nothing_selected, this));
-
-        //mSpnOfici.setPrompt("aaaaa");
+        ArrayAdapter<Ofici> adapterLlistaTipus1 = new ArrayAdapter<>(this, android.R.layout.preference_category, mLlistaOfici);
         mSpnOfici.setAdapter(adapterLlistaTipus1);
 
     }
@@ -230,43 +247,58 @@ public class MainActivity extends ActionBarActivity {
                 mLlistaRases = Rasa.getRaces(Alignment.HORDE);
                 break;
         }
-        ArrayAdapter<Rasa> adapterLlistaRasa = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mLlistaRases);
+
+        ArrayAdapter<Rasa> adapterLlistaRasa = new ArrayAdapter<>(this, android.R.layout.preference_category, mLlistaRases);
         mSpnRasa.setAdapter(adapterLlistaRasa);
-        //mSpnRasa.setAdapter(new NothingSelectedSpinnerAdapter("Selecciona", adapterLlistaRasa, R.layout.contact_spinner_row_nothing_selected, this));
     }
 
     private void mostrarPersonatge(Personatge p) {
 
+
         PersonatgeActual = p;
 
-        mEdtNom.setText(p.getNom());
+        if (PersonatgeActual.getNom() != null) {
+            mEdtNom.setText(PersonatgeActual.getNom());
+            Log.i("Personatge ", p.getNom());
+        }
+        ;
 
-        switch (p.getSexe()) {
-            case MALE:
-                mRdbMale.setChecked(true);
-                break;
-            case FEMALE:
-                mRdbFemale.setChecked(true);
-                break;
-            case OTHER:
-                mRdbOther.setChecked(true);
-                break;
+        if (PersonatgeActual.getSexe() != null) {
+            switch (p.getSexe()) {
+                case MALE:
+                    mRdbMale.setChecked(true);
+                    break;
+                case FEMALE:
+                    mRdbFemale.setChecked(true);
+                    break;
+                case OTHER:
+                    mRdbOther.setChecked(true);
+                    break;
+            }
+            Log.i("Sexe ", p.getSexe().toString());
         }
 
-        switch (p.getAlignement()) {
-            case ALLIANCE:
-                mRdbAlliance.setChecked(true);
-                break;
-            case NEUTRAL:
-                mRdbNeutral.setChecked(true);
-                break;
-            case HORDE:
-                mRdbHorde.setChecked(true);
-                break;
+        if (PersonatgeActual.getRasa() != null) {
+            switch (p.getAlignement()) {
+                case ALLIANCE:
+                    mRdbAlliance.setChecked(true);
+                    break;
+                case NEUTRAL:
+                    mRdbNeutral.setChecked(true);
+                    break;
+                case HORDE:
+                    mRdbHorde.setChecked(true);
+                    break;
+            }
+            mSpnRasa.setSelection(mLlistaRases.indexOf(PersonatgeActual.getRasa()));
+            Log.i("Rasa ", "Rasa: " + p.getRasa().getRasa() + "Alignment: " + p.getAlignement().toString());
         }
 
-        mSpnOfici.setSelection(mLlistaOfici.indexOf(PersonatgeActual.getOfici()));
-        mSpnRasa.setSelection(mLlistaRases.indexOf(PersonatgeActual.getRasa()));
+        if (PersonatgeActual.getOfici() != null) {
+            mSpnOfici.setSelection(mLlistaOfici.indexOf(PersonatgeActual.getOfici()));
+        } else {
+            mSpnOfici.setSelection(mLlistaOfici.indexOf(Ofici.getOficiPerCodi(1)));
+        }
 
         mSbStrenght.setProgress(p.getStrength());
         mSbDexterity.setProgress(p.getDexterity());
@@ -275,7 +307,8 @@ public class MainActivity extends ActionBarActivity {
         mSbWisdom.setProgress(p.getWisdom());
         mSbCharisma.setProgress(p.getCharisma());
 
-        mImvFotoPersonatge.setImageResource(p.getImage());
+        mImvFotoPersonatge.setImageResource(PersonatgeActual.getImage());
+
         mEdtDescripcio.setText(p.getDescription());
 
     }
@@ -285,22 +318,22 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View view) {
 
+            Boolean reiniciarIterator = false;
             if (PersonatgeNou) PersonatgeNou = false;
 
             switch (view.getId()) {
                 case R.id.imvSeguentPersonatge:
 
-                    if (CanviSentitPersonatge == -1) {
-                        CanviSentitPersonatge = 1;
-                    }
-
                     if (lItPersonatge.hasNext()) {
-                        mostrarPersonatge(lItPersonatge.next());
                         if (CanviSentitPersonatge == 0) {
                             CanviSentitPersonatge = 1;
-                            mImvSeguentPersonatge.performClick();
-                        }
-                    } else {
+                            lItPersonatge.next();
+                            if (lItPersonatge.hasNext()) mostrarPersonatge(lItPersonatge.next());
+                            else reiniciarIterator = true;
+                        } else mostrarPersonatge(lItPersonatge.next());
+                    } else reiniciarIterator = true;
+
+                    if (reiniciarIterator) {
                         lItPersonatge = mLlistaPersonatges.listIterator();
                         mostrarPersonatge(lItPersonatge.next());
                     }
@@ -309,17 +342,17 @@ public class MainActivity extends ActionBarActivity {
 
                 case R.id.imvAnteriorPersonatge:
 
-                    if (CanviSentitPersonatge == -1) {
-                        CanviSentitPersonatge = 0;
-                    }
-
                     if (lItPersonatge.hasPrevious()) {
-                        mostrarPersonatge(lItPersonatge.previous());
                         if (CanviSentitPersonatge == 1) {
                             CanviSentitPersonatge = 0;
-                            mImvAnteriorPersonatge.performClick();
-                        }
-                    } else {
+                            lItPersonatge.previous();
+                            if (lItPersonatge.hasPrevious())
+                                mostrarPersonatge(lItPersonatge.previous());
+                            else reiniciarIterator = true;
+                        } else mostrarPersonatge(lItPersonatge.previous());
+                    } else reiniciarIterator = true;
+
+                    if (reiniciarIterator) {
                         lItPersonatge = mLlistaPersonatges.listIterator(mLlistaPersonatges.size());
                         mostrarPersonatge(lItPersonatge.previous());
                     }
@@ -330,54 +363,64 @@ public class MainActivity extends ActionBarActivity {
 
     class SeguentImatge implements View.OnClickListener {
 
+        //TODO En canviar de sentit no guarda imatge...
+        //TODO Icone i fons Neutral
+        //TODO Personatge.setImage a Zero
+        //TODO Layout Nom no ha de ser dinàmic
+        //TODO Fotos de les rases
+
         @Override
         public void onClick(View view) {
 
-            int imatge = R.drawable.lk; //Per inicialitzar la variable
+            if (lItImatge == null) return;
+            if(mLlistaImatges.size() == 1){
+                Log.i("Llista","La llista no te més personatges....");
+                return;
+            }
+            int imatge = 0; //Per inicialitzar la variable
+            Boolean reiniciarIterator = false;
 
             switch (view.getId()) {
                 case R.id.imvImatgeSeguent:
 
-                    if (CanviSentitImatge == -1) {
-                        CanviSentitImatge = 1;
-                    }
+                    if (CanviSentitImatge == -1) CanviSentitImatge = 1;
 
                     if (lItImatge.hasNext()) {
-                        imatge = lItImatge.next().getImageResourceId();
-                        mImvFotoPersonatge.setImageResource(imatge);
-                        if (CanviSentitImatge == 0) {
-                            CanviSentitImatge = 1;
-                            mImvSeguentImatge.performClick();
-                        }
-                    } else {
+                        if (CanviSentitPersonatge == 0) {
+                            CanviSentitPersonatge = 1;
+                            imatge = lItImatge.next().getImageResourceId();
+                            if (lItImatge.hasNext()) imatge = lItImatge.next().getImageResourceId();
+                            else reiniciarIterator = true;
+                        } else  imatge = lItImatge.next().getImageResourceId();
+                    } else reiniciarIterator = true;
+
+                    if (reiniciarIterator) {
                         lItImatge = mLlistaImatges.listIterator();
                         imatge = lItImatge.next().getImageResourceId();
-                        mImvFotoPersonatge.setImageResource(imatge);
                     }
-
                     break;
 
                 case R.id.imvImatgeAnterior:
 
-                    if (CanviSentitImatge == -1) {
-                        CanviSentitImatge = 0;
-                    }
+                    if (CanviSentitImatge == -1) CanviSentitImatge = 0;
 
                     if (lItImatge.hasPrevious()) {
-                        imatge = lItImatge.previous().getImageResourceId();
-                        mImvFotoPersonatge.setImageResource(imatge);
-                        if (CanviSentitImatge == 1) {
-                            CanviSentitImatge = 0;
-                            mImvAnteriorImatge.performClick();
-                        }
-                    } else {
+                        if (CanviSentitPersonatge == 1) {
+                            CanviSentitPersonatge = 0;
+                            imatge = lItImatge.previous().getImageResourceId();
+                            if (lItImatge.hasPrevious()) imatge = lItImatge.previous().getImageResourceId();
+                            else reiniciarIterator = true;
+                        } else  imatge = lItImatge.previous().getImageResourceId();
+                    } else reiniciarIterator = true;
+
+                    if (reiniciarIterator) {
                         lItImatge = mLlistaImatges.listIterator(mLlistaImatges.size());
                         imatge = lItImatge.previous().getImageResourceId();
-                        mImvFotoPersonatge.setImageResource(imatge);
                     }
                     break;
             }
 
+            mImvFotoPersonatge.setImageResource(imatge);
             PersonatgeActual.setImage(imatge);
         }
     }
@@ -435,6 +478,7 @@ public class MainActivity extends ActionBarActivity {
                 case R.id.spRasa:
                     Rasa rasa = (Rasa) adapterView.getSelectedItem();
                     PersonatgeActual.setRasa(rasa);
+                    carregarImatges(PersonatgeActual.getSexe(), PersonatgeActual.getRasa());
                     break;
             }
         }

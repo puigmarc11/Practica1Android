@@ -23,7 +23,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:theme="@android:style/Theme.Black"
-            style="@android:style/Widget.SeekBar"
+            android:progressDrawable="@drawable/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -43,7 +43,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:theme="@android:style/Theme.Black"
-            style="@android:style/Widget.SeekBar"
+            android:progressDrawable="@drawable/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -63,7 +63,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:theme="@android:style/Theme.Black"
-            style="@android:style/Widget.SeekBar"
+            android:progressDrawable="@drawable/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -83,7 +83,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:theme="@android:style/Theme.Black"
-            style="@android:style/Widget.SeekBar"
+            android:progressDrawable="@drawable/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -103,7 +103,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:theme="@android:style/Theme.Black"
-            style="@android:style/Widget.SeekBar"
+            android:progressDrawable="@drawable/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -123,7 +123,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:theme="@android:style/Theme.Black"
-            style="@android:style/Widget.SeekBar"
+            android:progressDrawable="@drawable/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

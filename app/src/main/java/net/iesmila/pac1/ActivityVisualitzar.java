@@ -81,7 +81,6 @@ public class ActivityVisualitzar extends Activity {
             }
         });
 
-
         carregarAbilitats(PersonatgeActual.getStrength(), mLlyStrength);
         carregarAbilitats(PersonatgeActual.getDexterity(), mLlyDexterity);
         carregarAbilitats(PersonatgeActual.getConstitution(), mLlyConstitution);
@@ -89,17 +88,26 @@ public class ActivityVisualitzar extends Activity {
         carregarAbilitats(PersonatgeActual.getWisdom(), mLlyWisdom);
         carregarAbilitats(PersonatgeActual.getCharisma(), mLlyCharisma);
 
-
         CarregarImatgeAlignment();
 
         mTxvNom.setText(PersonatgeActual.getNom());
-        mTxvSexe.setText(PersonatgeActual.getSexe().toString());
-        mTxvRasa.setText(PersonatgeActual.getRasa().getRasa().toString());
-        mTxvOfici.setText(PersonatgeActual.getOfici().getOfici());
-        //mTxvDescripcio.setText(PersonatgeActual.getDescription());
+        if (PersonatgeActual.getSexe() != null) {
+            mTxvSexe.setText(PersonatgeActual.getSexe().toString());
+        }
+
+        if (PersonatgeActual.getRasa() != null) {
+            mTxvRasa.setText(PersonatgeActual.getRasa().getRasa().toString());
+        }
+
+        if (PersonatgeActual.getOfici() != null) {
+            mTxvOfici.setText(PersonatgeActual.getOfici().getOfici());
+        }
+
+        mTxvDescripcio.setText(PersonatgeActual.getDescription());
 
         mImvImatge.setImageResource(PersonatgeActual.getImage());
-        mTxvNivell.setText("Nivell: " + calcularNivell());
+
+        mTxvNivell.setText("Nivell: " + PersonatgeActual.calcularNivell());
     }
 
     private void CarregarImatgeAlignment() {
@@ -110,6 +118,9 @@ public class ActivityVisualitzar extends Activity {
         } else if (PersonatgeActual.getAlignement() == Alignment.HORDE) {
             mImvAlignment.setImageResource(R.drawable.horde);
             mLlyImatgeFons.setBackgroundResource(R.drawable.fons_orgrimar);
+        } else if (PersonatgeActual.getAlignement() == Alignment.NEUTRAL){
+            mImvAlignment.setImageResource(R.drawable.icono);
+            mLlyImatgeFons.setBackgroundResource(R.drawable.fons_neutral);
         }
     }
 
@@ -136,8 +147,6 @@ public class ActivityVisualitzar extends Activity {
         }
     }
 
-    private int calcularNivell() {
-        return (PersonatgeActual.getStrength() + PersonatgeActual.getDexterity() + PersonatgeActual.getConstitution() + PersonatgeActual.getIntelligence() + PersonatgeActual.getWisdom() + PersonatgeActual.getCharisma()) / 6;
-    }
+
 
 }

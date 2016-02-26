@@ -15,20 +15,77 @@ public class Imatge {
     private int mImageResourceId;
 
     private static ArrayList<Imatge> llistaImatges = null;
-    public static List<Imatge> getImatges() {
+    public static List<Imatge> getAllImatges() {
 
         if( llistaImatges==null) {
             llistaImatges = new ArrayList<Imatge>();
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.be));
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.orc));
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.lk));
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.hm));
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.sylvanas));
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.enano));
-            // llistaImatges.add(new Imatge(Sexe.MALE, Rasa.HUMAN, R.drawable.human1));
-            // llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.DRAGON, R.drawable.dragon));
+
+            ///// Alignment Horde /////
+
+            //Imatges Orco
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcf1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm3));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm4));
+
+            ///// Alignment Alliance /////
+
+            //Imatges Humans
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanf1));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanf2));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanf3));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanf4));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanm1));
+            //llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanm2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanm3));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanm4));
+
+            //Imatges Draenei
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif1));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif2));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif3));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneim1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneim2));
+
+            //Imatges Enano
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(3,Alignment.ALLIANCE), R.drawable.enanof1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(3,Alignment.ALLIANCE), R.drawable.enanom1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(3,Alignment.ALLIANCE), R.drawable.enanom2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(3,Alignment.ALLIANCE), R.drawable.enanom3));
+
+            //Imatges Elfo
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elff1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elfm1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elfm2));
+
+            ///// Alignment Neutral /////
+
+            //Imatges aspectos
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.NEUTRAL), R.drawable.aspecto1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.NEUTRAL), R.drawable.aspecto2));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.NEUTRAL), R.drawable.aspecto3));
+
+            //Imatges Dragon
+            llistaImatges.add(new Imatge(Sexe.OTHER, Rasa.getRasaPerCodi(2,Alignment.NEUTRAL), R.drawable.dragon1));
+            llistaImatges.add(new Imatge(Sexe.OTHER, Rasa.getRasaPerCodi(2,Alignment.NEUTRAL), R.drawable.dragon2));
+            llistaImatges.add(new Imatge(Sexe.OTHER, Rasa.getRasaPerCodi(2,Alignment.NEUTRAL), R.drawable.dragon3));
+
         }
         return llistaImatges;
+    }
+
+    public static List<Imatge> getImages(Sexe mSexe, Rasa mRasa){
+
+        List<Imatge> llistaFiltrada = new ArrayList<>();
+        for(Imatge im: getAllImatges())
+        {
+            if (im.getSexe() == mSexe && im.getRasa().getRasa() == mRasa.getRasa()){
+                llistaFiltrada.add(im);
+            }
+        }
+
+        return llistaFiltrada;
     }
 
 

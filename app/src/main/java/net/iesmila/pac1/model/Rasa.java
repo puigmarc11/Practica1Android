@@ -68,16 +68,17 @@ public class Rasa implements Serializable{
                 if (mLlistaRacesHorde == null) {
                     mLlistaRacesHorde = new ArrayList<>();
                     mLlistaRacesHorde.add(new Rasa(1,"Orco", Alignment.HORDE));
-                    mLlistaRacesHorde.add(new Rasa(2,"No muerto", Alignment.HORDE));
-                    mLlistaRacesHorde.add(new Rasa(3,"Tauren", Alignment.HORDE));
-                    mLlistaRacesHorde.add(new Rasa(4,"Troll", Alignment.HORDE));
+//                    mLlistaRacesHorde.add(new Rasa(2,"No muerto", Alignment.HORDE));
+//                    mLlistaRacesHorde.add(new Rasa(3,"Tauren", Alignment.HORDE));
+//                    mLlistaRacesHorde.add(new Rasa(4,"Troll", Alignment.HORDE));
                 }
                 return mLlistaRacesHorde;
 
             case NEUTRAL:
                 if (mLlistaRacesNeutral == null) {
                     mLlistaRacesNeutral = new ArrayList<>();
-                    mLlistaRacesNeutral.add(new Rasa(1,"Pandaren",Alignment.NEUTRAL));
+                    mLlistaRacesNeutral.add(new Rasa(1,"Aspecto",Alignment.NEUTRAL));
+                    mLlistaRacesNeutral.add(new Rasa(2,"Dragon",Alignment.NEUTRAL));
                 }
                 return mLlistaRacesNeutral;
 

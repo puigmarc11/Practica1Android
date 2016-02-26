@@ -7,10 +7,7 @@
     <ImageView
         android:id="@+id/imvImatge"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/enano" />
-
+        android:layout_height="match_parent" />
 
     <TextView
         android:layout_gravity="bottom"
@@ -21,7 +18,6 @@
         android:background="@drawable/fons2"
         android:padding="5dp"
         android:scrollbars="vertical"
-        android:text="Cuando se debilitó el control del Rey Exánime sobre sus secuaces, Sylvanas se separó del control de su amo tiránico y recuperó su cuerpo. Con la promesa de vengar su muerte, Sylvanas reunió a otros no-muertos renegados y se dispuso a emprender una guerra contra la Plaga. Fue así como se formó el grupo conocido como los Renegados, con Sylvanas como su reina. Bajo el mando de Sylvanas, los Renegados se unieron a la Horda y más tarde ayudaron a provocar la caída del Rey Exánime en las heladas tierras de Rasganorte.."
         android:textSize="12dp" />
 
 </FrameLayout>
