@@ -123,7 +123,7 @@ public class MainActivity extends ActionBarActivity {
         mImvAnteriorImatge.setOnClickListener(seguentImatge);
         mImvSeguentImatge.setOnClickListener(seguentImatge);
 
-        //mEdtNom.addTextChangedListener(new EditableTextWatcher(mEdtNom));
+        mEdtNom.addTextChangedListener(new EditableTextWatcher(mEdtNom));
         mEdtDescripcio.addTextChangedListener(new EditableTextWatcher(mEdtDescripcio));
 
         mRgGenere.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -177,6 +177,8 @@ public class MainActivity extends ActionBarActivity {
                 p.setSexe(Sexe.MALE);
                 p.setRasa(Rasa.getRasaPerCodi(1, Alignment.ALLIANCE));
                 p.setOfici(Ofici.getOficiPerCodi(1));
+                p.setImage(0);
+                Log.i("Personatge","Nou Personatge --> Imatge" + p.getImage());
                 mostrarPersonatge(p);
             }
         });
@@ -210,6 +212,9 @@ public class MainActivity extends ActionBarActivity {
 
         mLlistaImatges = Imatge.getImages(mSexe, mRasa);
         if (mLlistaImatges.size() > 1) {
+            int i;
+            //for(i = 0; i<mLlistaImatges.size() && mLlistaImatges.get(i).getImageResourceId() != PersonatgeActual.getImage(); i++);
+            //Log.i("Personatge","Imatge " + String.valueOf(i));
             lItImatge = mLlistaImatges.listIterator();
             CanviSentitImatge = -1;
             mImvSeguentImatge.performClick();
@@ -298,8 +303,11 @@ public class MainActivity extends ActionBarActivity {
         mSbWisdom.setProgress(p.getWisdom());
         mSbCharisma.setProgress(p.getCharisma());
 
-        Log.i("Personatge", "Actual Imatge: " + PersonatgeActual.getImage());
-
+        //Si fem Personatges nous seguits, (a paritr del segon), aquets no fan saltar events dels radio buttons change, pertant
+        //no s'actualitza la llista d'imatges i la forçem aqui al final abans de seleccionar la imatge.
+        if(PersonatgeNou){
+            carregarImatges(PersonatgeActual.getSexe(),PersonatgeActual.getRasa());
+        }
         mImvFotoPersonatge.setImageResource(PersonatgeActual.getImage());
 
         mEdtDescripcio.setText(p.getDescription());
@@ -416,7 +424,6 @@ public class MainActivity extends ActionBarActivity {
 
             mImvFotoPersonatge.setImageResource(imatge);
             PersonatgeActual.setImage(imatge);
-            Log.i("Personatge","Llista Imatge: " + imatge);
         }
     }
 
@@ -477,6 +484,7 @@ public class MainActivity extends ActionBarActivity {
                 case R.id.spRasa:
                     Rasa rasa = (Rasa) adapterView.getSelectedItem();
                     PersonatgeActual.setRasa(rasa);
+                    //TODO no en visualitzar persontge
                     carregarImatges(PersonatgeActual.getSexe(), PersonatgeActual.getRasa());
                     break;
             }
@@ -510,6 +518,7 @@ public class MainActivity extends ActionBarActivity {
                 case R.id.edtNom:
                     PersonatgeActual.setNom(editable.toString());
                     if (PersonatgeNou && mEdtNom.getText().length() > 1) {
+                        Log.i("Personatge","Guardar personatge????");
                         mLlistaPersonatges.add(PersonatgeActual);
                         PersonatgeNou = false;
                         lItPersonatge = mLlistaPersonatges.listIterator(mLlistaPersonatges.size());
