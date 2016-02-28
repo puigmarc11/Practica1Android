@@ -67,14 +67,15 @@ public class MainActivity extends ActionBarActivity {
     private SeekBar mSbWisdom;
     private SeekBar mSbCharisma;
 
-    ListIterator<Personatge> lItPersonatge;
-    int CanviSentitPersonatge = -1;
+    private ListIterator<Personatge> lItPersonatge;
+    private int CanviSentitPersonatge = -1;
 
-    ListIterator<Imatge> lItImatge;
-    int CanviSentitImatge = -1;
+    private ListIterator<Imatge> lItImatge;
+    private int CanviSentitImatge = -1;
 
-    Personatge PersonatgeActual = null;
-    Boolean PersonatgeNou = false;
+    private Personatge PersonatgeActual = null;
+    private Boolean PersonatgeNou = false;
+    private Boolean VisualitzarPersonatge = false;
 
     private void BuscarViewById() {
 
@@ -178,7 +179,7 @@ public class MainActivity extends ActionBarActivity {
                 p.setRasa(Rasa.getRasaPerCodi(1, Alignment.ALLIANCE));
                 p.setOfici(Ofici.getOficiPerCodi(1));
                 p.setImage(0);
-                Log.i("Personatge","Nou Personatge --> Imatge" + p.getImage());
+                Log.i("Personatge", "Nou Personatge --> Imatge" + p.getImage());
                 mostrarPersonatge(p);
             }
         });
@@ -205,19 +206,34 @@ public class MainActivity extends ActionBarActivity {
         mLlistaPersonatges = Personatge.getPersonatges();
         lItPersonatge = mLlistaPersonatges.listIterator();
         carregarSpinnerOfici();
+        Log.i("Personatge", "Inici de l'aplicacio");
         mostrarPersonatge(lItPersonatge.next());
     }
 
     private void carregarImatges(Sexe mSexe, Rasa mRasa) {
 
         mLlistaImatges = Imatge.getImages(mSexe, mRasa);
+
         if (mLlistaImatges.size() > 1) {
-            int i;
-            //for(i = 0; i<mLlistaImatges.size() && mLlistaImatges.get(i).getImageResourceId() != PersonatgeActual.getImage(); i++);
-            //Log.i("Personatge","Imatge " + String.valueOf(i));
+            int ii;
             lItImatge = mLlistaImatges.listIterator();
-            CanviSentitImatge = -1;
-            mImvSeguentImatge.performClick();
+            Boolean trobada = false;
+            while (lItImatge.hasNext()) {
+                ii = lItImatge.next().getImageResourceId();
+                PersonatgeActual.getImage();
+                if (ii == PersonatgeActual.getImage()) {
+                    mImvFotoPersonatge.setImageResource(ii);
+                    trobada = true;
+                    break;
+                }
+            }
+            if (!trobada) {
+                lItImatge = mLlistaImatges.listIterator();
+                ii = lItImatge.next().getImageResourceId();
+                mImvFotoPersonatge.setImageResource(ii);
+                PersonatgeActual.setImage(ii);
+            }
+            CanviSentitImatge = 1;
         } else if (mLlistaImatges.size() == 1) {
             //Optimitzacio per si la llista d'imatges només en té una
             mImvFotoPersonatge.setImageResource(mLlistaImatges.get(0).getImageResourceId());
@@ -259,6 +275,7 @@ public class MainActivity extends ActionBarActivity {
     private void mostrarPersonatge(Personatge p) {
 
         PersonatgeActual = p;
+        VisualitzarPersonatge = true;
 
         if (PersonatgeActual.getNom() != null) {
             mEdtNom.setText(PersonatgeActual.getNom());
@@ -305,13 +322,17 @@ public class MainActivity extends ActionBarActivity {
 
         //Si fem Personatges nous seguits, (a paritr del segon), aquets no fan saltar events dels radio buttons change, pertant
         //no s'actualitza la llista d'imatges i la forçem aqui al final abans de seleccionar la imatge.
-        if(PersonatgeNou){
-            carregarImatges(PersonatgeActual.getSexe(),PersonatgeActual.getRasa());
+        if (PersonatgeNou) {
+            carregarImatges(PersonatgeActual.getSexe(), PersonatgeActual.getRasa());
         }
+
+        //Si la combinació de rasa i sexe no existeixen imatges, no s'asignara cap imatge al personatge
         mImvFotoPersonatge.setImageResource(PersonatgeActual.getImage());
 
         mEdtDescripcio.setText(p.getDescription());
 
+        //Tornem el flag a l'esta perque saltin events
+        VisualitzarPersonatge = false;
     }
 
     //Classe per canviar de personatges.
@@ -376,8 +397,7 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View view) {
 
             //Evitem recorre el switch si no hi ha imatges, o bé si la llista només en té una.
-            if (lItImatge == null || mLlistaImatges.size() == 1 ) return;
-
+            if (lItImatge == null || mLlistaImatges.size() == 1) return;
             int imatge = 0; //Per inicialitzar la variable
             Boolean reiniciarIterator = false;
 
@@ -484,7 +504,6 @@ public class MainActivity extends ActionBarActivity {
                 case R.id.spRasa:
                     Rasa rasa = (Rasa) adapterView.getSelectedItem();
                     PersonatgeActual.setRasa(rasa);
-                    //TODO no en visualitzar persontge
                     carregarImatges(PersonatgeActual.getSexe(), PersonatgeActual.getRasa());
                     break;
             }
@@ -514,11 +533,14 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
+
+            //Evitar actualitzar el personatge amb ell mateix quan els recoorem per la llisat
+            if (VisualitzarPersonatge) return;
+
             switch (Id) {
                 case R.id.edtNom:
                     PersonatgeActual.setNom(editable.toString());
                     if (PersonatgeNou && mEdtNom.getText().length() > 1) {
-                        Log.i("Personatge","Guardar personatge????");
                         mLlistaPersonatges.add(PersonatgeActual);
                         PersonatgeNou = false;
                         lItPersonatge = mLlistaPersonatges.listIterator(mLlistaPersonatges.size());

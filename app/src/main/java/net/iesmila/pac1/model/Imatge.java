@@ -25,9 +25,26 @@ public class Imatge {
             //Imatges Orco
             llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcf1));
             llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm1));
-            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm2)); //TODO
             llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm3));
             llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.HORDE), R.drawable.orcm4));
+
+            //Imatges Goblin
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.HORDE), R.drawable.goblinf1));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.HORDE), R.drawable.goblinf2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(2,Alignment.HORDE), R.drawable.goblinm1));//TODO foto
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(2,Alignment.HORDE), R.drawable.goblinm2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(2,Alignment.HORDE), R.drawable.goblinm3));//TODO foto
+
+            //Imatges Troll
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(3,Alignment.HORDE), R.drawable.trollf1));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(3,Alignment.HORDE), R.drawable.trollf2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(3,Alignment.HORDE), R.drawable.trollm1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(3,Alignment.HORDE), R.drawable.trollm2));
+
+            //Imatges Undead
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(4,Alignment.HORDE), R.drawable.undeadf1));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(4,Alignment.HORDE), R.drawable.undeadm1));
 
             ///// Alignment Alliance /////
 
@@ -36,17 +53,18 @@ public class Imatge {
             llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanf2));
             llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanf3));
             llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanf4));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanf5));
             llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanm1));
-            //llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanm2));
             llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanm3));
             llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(1,Alignment.ALLIANCE), R.drawable.humanm4));
 
             //Imatges Draenei
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif1));
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif2));
-            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif3));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif1));//TODO
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif2));//TODO
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneif3));//TODO
             llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneim1));
             llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneim2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(2,Alignment.ALLIANCE), R.drawable.draeneim3));
 
             //Imatges Enano
             llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(3,Alignment.ALLIANCE), R.drawable.enanof1));
@@ -56,8 +74,11 @@ public class Imatge {
 
             //Imatges Elfo
             llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elff1));
-            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elfm1));
-            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elfm2));
+            llistaImatges.add(new Imatge(Sexe.FEMALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elff2));
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elfm1));//TODO
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elfm2));//TODO
+            llistaImatges.add(new Imatge(Sexe.MALE, Rasa.getRasaPerCodi(4,Alignment.ALLIANCE), R.drawable.elfm3));
+
 
             ///// Alignment Neutral /////
 

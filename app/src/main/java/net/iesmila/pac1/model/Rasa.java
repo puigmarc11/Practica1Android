@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rasa implements Serializable{
+public class Rasa implements Serializable {
 
     private static List<Rasa> mLlistaRacesAlliance;
     private static List<Rasa> mLlistaRacesHorde;
@@ -34,7 +34,7 @@ public class Rasa implements Serializable{
         return mRasa;
     }
 
-    public int getCodi(){
+    public int getCodi() {
         return mCodi;
     }
 
@@ -57,28 +57,30 @@ public class Rasa implements Serializable{
             case ALLIANCE:
                 if (mLlistaRacesAlliance == null) {
                     mLlistaRacesAlliance = new ArrayList<>();
-                    mLlistaRacesAlliance.add(new Rasa(1,"Humano",Alignment.ALLIANCE));
-                    mLlistaRacesAlliance.add(new Rasa(2,"Draenei",Alignment.ALLIANCE));
-                    mLlistaRacesAlliance.add(new Rasa(3,"Enano",Alignment.ALLIANCE));
-                    mLlistaRacesAlliance.add(new Rasa(4,"Elfo",Alignment.ALLIANCE));
+                    mLlistaRacesAlliance.add(new Rasa(1, "Humano", Alignment.ALLIANCE));
+                    mLlistaRacesAlliance.add(new Rasa(2, "Draenei", Alignment.ALLIANCE));
+                    mLlistaRacesAlliance.add(new Rasa(3, "Enano", Alignment.ALLIANCE));
+                    mLlistaRacesAlliance.add(new Rasa(4, "Elfo", Alignment.ALLIANCE));
                 }
                 return mLlistaRacesAlliance;
 
             case HORDE:
                 if (mLlistaRacesHorde == null) {
                     mLlistaRacesHorde = new ArrayList<>();
-                    mLlistaRacesHorde.add(new Rasa(1,"Orco", Alignment.HORDE));
-//                    mLlistaRacesHorde.add(new Rasa(2,"No muerto", Alignment.HORDE));
+                    mLlistaRacesHorde.add(new Rasa(1, "Orco", Alignment.HORDE));
+                    mLlistaRacesHorde.add(new Rasa(2, "Goblin", Alignment.HORDE));
+                    mLlistaRacesHorde.add(new Rasa(3, "Troll", Alignment.HORDE));
+                    mLlistaRacesHorde.add(new Rasa(4, "Undead", Alignment.HORDE));
 //                    mLlistaRacesHorde.add(new Rasa(3,"Tauren", Alignment.HORDE));
-//                    mLlistaRacesHorde.add(new Rasa(4,"Troll", Alignment.HORDE));
+
                 }
                 return mLlistaRacesHorde;
 
             case NEUTRAL:
                 if (mLlistaRacesNeutral == null) {
                     mLlistaRacesNeutral = new ArrayList<>();
-                    mLlistaRacesNeutral.add(new Rasa(1,"Aspecto",Alignment.NEUTRAL));
-                    mLlistaRacesNeutral.add(new Rasa(2,"Dragon",Alignment.NEUTRAL));
+                    mLlistaRacesNeutral.add(new Rasa(1, "Aspecto", Alignment.NEUTRAL));
+                    mLlistaRacesNeutral.add(new Rasa(2, "Dragon", Alignment.NEUTRAL));
                 }
                 return mLlistaRacesNeutral;
 
@@ -87,23 +89,23 @@ public class Rasa implements Serializable{
         }
     }
 
-    public static boolean rasaCorrecta(String mRasa, Alignment mAlignment){
+    public static boolean rasaCorrecta(String mRasa, Alignment mAlignment) {
 
         List<Rasa> rases = getRaces(mAlignment);
 
-        for (Rasa s : rases){
-            if (s.equals(mRasa)){
+        for (Rasa s : rases) {
+            if (s.equals(mRasa)) {
                 return true;
             }
         }
         return false;
     }
 
-    public static Rasa getRasaPerCodi(int codi, Alignment mAlignment){
+    public static Rasa getRasaPerCodi(int codi, Alignment mAlignment) {
 
         List<Rasa> llista = getRaces(mAlignment);
-        for(Rasa r : llista){
-            if(r.getCodi() == codi){
+        for (Rasa r : llista) {
+            if (r.getCodi() == codi) {
                 return r;
             }
         }
@@ -113,7 +115,7 @@ public class Rasa implements Serializable{
     @Override
     public String toString() {
         return mRasa;
-   }
+    }
 }
 
 
