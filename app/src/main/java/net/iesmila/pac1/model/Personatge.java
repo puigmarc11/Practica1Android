@@ -22,12 +22,12 @@ public class Personatge implements Serializable {
     public static List<Personatge> getPersonatges() {
         if (mPersonatges == null) {
             mPersonatges = new ArrayList<Personatge>();
-            mPersonatges.add(new Personatge("Human", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 10, 40, 30, 40, 20, 10, ""));
-            mPersonatges.add(new Personatge("Draenei", Rasa.getRasaPerCodi(2, Alignment.ALLIANCE), Sexe.FEMALE, Ofici.getOficiPerCodi(1), R.drawable.draeneif3, 10, 40, 30, 40, 20, 10, ""));
+            mPersonatges.add(new Personatge("Human", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 90, 40, 80, 40, 20, 10, ""));
             mPersonatges.add(new Personatge("Dwarf", Rasa.getRasaPerCodi(3, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.enanom1, 20, 43, 40, 10, 22, 77, ""));
             mPersonatges.add(new Personatge("Elf", Rasa.getRasaPerCodi(4, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.elfm1, 20, 66, 40, 70, 22, 77, ""));
-            mPersonatges.add(new Personatge("Orc", Rasa.getRasaPerCodi(1, Alignment.HORDE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.orcm4, 10, 40, 30, 40, 20, 10, ""));
-            mPersonatges.add(new Personatge("Orc", Rasa.getRasaPerCodi(1, Alignment.HORDE), Sexe.FEMALE, Ofici.getOficiPerCodi(1), R.drawable.orcf1, 10, 40, 30, 40, 20, 10, ""));
+            mPersonatges.add(new Personatge("Orc 1", Rasa.getRasaPerCodi(1, Alignment.HORDE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.orcm4, 10, 40, 30, 60, 10, 20, ""));
+            mPersonatges.add(new Personatge("Orc 2", Rasa.getRasaPerCodi(1, Alignment.HORDE), Sexe.FEMALE, Ofici.getOficiPerCodi(1), R.drawable.orcf1, 10, 40, 30, 40, 20, 40, ""));
+            mPersonatges.add(new Personatge("Aspect", Rasa.getRasaPerCodi(1, Alignment.NEUTRAL), Sexe.FEMALE, Ofici.getOficiPerCodi(1), R.drawable.aspectof1, 70, 40, 50, 40, 20, 90, ""));
         }
 
         return mPersonatges;
