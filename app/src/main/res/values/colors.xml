@@ -3,10 +3,17 @@
     <color name="verd">#ff245e09</color>
     <color name="blanc">#ffffffff</color>
     <color name="marro">#a6b49624</color>
+    <color name="negre">#000000</color>
 
     <color name="estat1">#fce80e06</color>
     <color name="estat2">#e4d940</color>
     <color name="estat3">#ade251</color>
     <color name="estat4">#fb246b04</color>
+
+    <color name="light_green">#fff6ffb6</color>
+    <color name="white">#fff</color>
+
+    <color name="pressed">#b095ce4a</color>
+    <color name="borderFila">#e69f58</color>
 
 </resources>

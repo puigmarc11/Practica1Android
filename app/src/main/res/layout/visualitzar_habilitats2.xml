@@ -1,17 +1,21 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:background="@drawable/fons2"
     android:padding="3dp"
     tools:context=".MainActivity">
 
-    <TableRow android:background="@drawable/border">
+    <TableRow
+        android:background="@drawable/border"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
+            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/strength"
+            android:text="STR"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -24,12 +28,16 @@
         </LinearLayout>
     </TableRow>
 
-    <TableRow android:background="@drawable/border">
+    <TableRow
+        android:background="@drawable/border"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
+            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dexterity"
+            android:text="DEX"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -43,12 +51,16 @@
 
     </TableRow>
 
-    <TableRow android:background="@drawable/border">
+    <TableRow
+        android:background="@drawable/border"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
+            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/constitution"
+            android:text="CON"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -62,12 +74,16 @@
 
     </TableRow>
 
-    <TableRow android:background="@drawable/border">
+    <TableRow
+        android:background="@drawable/border"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
+            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/intelligence"
+            android:text="INT"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -81,11 +97,17 @@
 
     </TableRow>
 
-    <TableRow android:background="@drawable/border">
+    <TableRow
+        android:background="@drawable/border"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
         <TextView
+            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/wisdom"
+            android:text="WID"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -99,12 +121,16 @@
 
     </TableRow>
 
-    <TableRow android:background="@drawable/border">
+    <TableRow
+        android:background="@drawable/border"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
+            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/charisma"
+            android:text="CHR"
             android:textStyle="bold" />
 
         <LinearLayout

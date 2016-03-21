@@ -1,0 +1,36 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/aaaa3"/>
+
+    <item>
+        <shape>
+            <stroke
+                android:width="9dp"
+                android:color="#0a0909">
+            </stroke>
+        </shape>
+    </item>
+
+    <item android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="3dp">
+        <shape>
+            <stroke
+                android:width="3dp"
+                android:color="#f9f7f6">
+            </stroke>
+        </shape>
+    </item>
+
+    <item>
+        <selector xmlns:android="http://schemas.android.com/apk/res/android">
+            <item
+                android:drawable="@color/pressed"
+                android:state_activated="true" />
+            <item
+                android:drawable="@color/pressed"
+                android:state_selected="true" />
+            <item
+                android:drawable="@color/pressed"
+                android:state_checked="true" />
+        </selector>
+    </item>
+
+</layer-list>

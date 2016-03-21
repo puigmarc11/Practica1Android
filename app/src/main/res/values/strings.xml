@@ -8,5 +8,6 @@
     <string name="intelligence">INTELLIGENCE</string>
     <string name="wisdom">WISDOM</string>
     <string name="charisma">CHARISMA</string>
+    <string name="title_activity_activity_gestio">ActivityGestio</string>
 
 </resources>

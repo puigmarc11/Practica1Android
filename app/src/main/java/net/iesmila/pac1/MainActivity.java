@@ -12,10 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import net.iesmila.pac1.model.Alignment;
 import net.iesmila.pac1.model.Imatge;
@@ -23,6 +27,8 @@ import net.iesmila.pac1.model.Ofici;
 import net.iesmila.pac1.model.Personatge;
 import net.iesmila.pac1.model.Rasa;
 import net.iesmila.pac1.model.Sexe;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +82,8 @@ public class MainActivity extends ActionBarActivity {
     private Personatge PersonatgeActual = null;
     private Boolean PersonatgeNou = false;
     private Boolean VisualitzarPersonatge = false;
+
+
 
     private void BuscarViewById() {
 
@@ -173,8 +181,8 @@ public class MainActivity extends ActionBarActivity {
                 Personatge p = new Personatge();
                 PersonatgeNou = true;
                 //Iniciem el personatge amb dades per no tenir problemes de NullPointer...
-                //Aquest personatge encara no s'afegeix a la llista per evitar crear molts personatges seguits.
-                //s'afegira a la llista un cop haguem introduit un nom.
+                //Aquest personatge encara no s'afegeix SearchableAdapter la llista per evitar crear molts personatges seguits.
+                //s'afegira SearchableAdapter la llista un cop haguem introduit un nom.
                 p.setSexe(Sexe.MALE);
                 p.setRasa(Rasa.getRasaPerCodi(1, Alignment.ALLIANCE));
                 p.setOfici(Ofici.getOficiPerCodi(1));
@@ -188,7 +196,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
 
@@ -197,6 +204,9 @@ public class MainActivity extends ActionBarActivity {
 
         //Definim els events
         DefinirEvntsDeLesView();
+
+        Log.d("XXX", "Debug");
+        Log.i("XXX","inf");
 
         iniciarAplicacio();
 
@@ -320,7 +330,7 @@ public class MainActivity extends ActionBarActivity {
         mSbWisdom.setProgress(p.getWisdom());
         mSbCharisma.setProgress(p.getCharisma());
 
-        //Si fem Personatges nous seguits, (a paritr del segon), aquets no fan saltar events dels radio buttons change, pertant
+        //Si fem Personatges nous seguits, (SearchableAdapter paritr del segon), aquets no fan saltar events dels radio buttons change, pertant
         //no s'actualitza la llista d'imatges i la forçem aqui al final abans de seleccionar la imatge.
         if (PersonatgeNou) {
             carregarImatges(PersonatgeActual.getSexe(), PersonatgeActual.getRasa());
@@ -331,13 +341,13 @@ public class MainActivity extends ActionBarActivity {
 
         mEdtDescripcio.setText(p.getDescription());
 
-        //Tornem el flag a l'esta perque saltin events
+        //Tornem el flag SearchableAdapter l'esta perque saltin events
         VisualitzarPersonatge = false;
     }
 
     //Classe per canviar de personatges.
     //Conte un flag per saber si és canvia la direcció del llistat(Hem de realitzar un doble next//previous
-    //Si s'arriva a un dels dos extrems es torna a generar l'itarador. O bé pel principi de la llista o bé per el final. Serveix per tenir la llista circular.
+    //Si s'arriva SearchableAdapter un dels dos extrems es torna SearchableAdapter generar l'itarador. O bé pel principi de la llista o bé per el final. Serveix per tenir la llista circular.
     class SeguentPersonatge implements View.OnClickListener {
 
         @Override
@@ -489,7 +499,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //Classe per actualitzar els spinners de ofici i rasa
-    //També s'actualitza indirectament l'alignment ja que aquest va lligat a la rasa i només és gestiona en
+    //També s'actualitza indirectament l'alignment ja que aquest va lligat SearchableAdapter la rasa i només és gestiona en
     //un lloc per no tenir conflictes d'events
     class ItemSpinner implements AdapterView.OnItemSelectedListener {
 
