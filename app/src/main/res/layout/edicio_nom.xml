@@ -6,9 +6,11 @@
     android:layout_height="100dp">
 
         <ImageView
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/rodona2"
             android:layout_marginRight="5dp"
             android:id="@+id/imvAnteriorPersonatge"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:src="@drawable/fletxa"
             android:scaleType="fitCenter"
@@ -24,9 +26,10 @@
             android:background="@drawable/border"/>
 
         <ImageView
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:id="@+id/imvSeguentPersonatge"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:scaleX="-1"
             android:scaleType="fitCenter"

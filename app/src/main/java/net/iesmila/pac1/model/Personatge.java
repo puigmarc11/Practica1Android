@@ -1,6 +1,8 @@
 package net.iesmila.pac1.model;
 
 
+import android.widget.ArrayAdapter;
+
 import net.iesmila.pac1.R;
 
 import java.io.Serializable;
@@ -17,29 +19,14 @@ public class Personatge implements Serializable {
     int mConstitution, mStrength, mDexterity, mWisdom, mIntelligence, mCharisma;
     String mDescription;
 
-    private static ArrayList<Personatge> mPersonatges;
+    private static ArrayList<Personatge> mPersonatges = new ArrayList<>();
 
     public static List<Personatge> getPersonatges() {
-        if (mPersonatges == null) {
-            mPersonatges = new ArrayList<Personatge>();
-            mPersonatges.add(new Personatge("111", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 1,1,1,1,1,1, ""));
-            mPersonatges.add(new Personatge("222", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 50,50,50,50,50,50, ""));
-            mPersonatges.add(new Personatge("333", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 1,1,1,1,1,1, ""));
-            mPersonatges.add(new Personatge("444", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 1,1,1,1,1,1, ""));
-            mPersonatges.add(new Personatge("555", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 50,50,50,50,50,50, ""));
-            mPersonatges.add(new Personatge("666", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 1,1,1,1,1,1, ""));
-            mPersonatges.add(new Personatge("777", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 1,1,1,1,1,1, ""));
-            mPersonatges.add(new Personatge("888", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 50,50,50,50,50,50, ""));
-            mPersonatges.add(new Personatge("999", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 1,1,1,1,1,1, ""));
-            mPersonatges.add(new Personatge("000", Rasa.getRasaPerCodi(1, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.humanm1, 100,100,100,100,100,100, ""));
-            mPersonatges.add(new Personatge("Dwarf", Rasa.getRasaPerCodi(3, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.enanom1, 20, 43, 40, 10, 22, 77, ""));
-            mPersonatges.add(new Personatge("Elf", Rasa.getRasaPerCodi(4, Alignment.ALLIANCE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.elfm1, 20, 66, 40, 70, 22, 77, ""));
-            mPersonatges.add(new Personatge("Orc 1", Rasa.getRasaPerCodi(1, Alignment.HORDE), Sexe.MALE, Ofici.getOficiPerCodi(1), R.drawable.orcm4, 10, 40, 30, 60, 10, 20, ""));
-            mPersonatges.add(new Personatge("Orc 2", Rasa.getRasaPerCodi(1, Alignment.HORDE), Sexe.FEMALE, Ofici.getOficiPerCodi(1), R.drawable.orcf1, 10, 40, 30, 40, 20, 40, ""));
-            mPersonatges.add(new Personatge("Aspect", Rasa.getRasaPerCodi(1, Alignment.NEUTRAL), Sexe.FEMALE, Ofici.getOficiPerCodi(1), R.drawable.aspectof1, 70, 40, 50, 40, 20, 90, ""));
-        }
-
         return mPersonatges;
+    }
+
+    public static void setLlistaPersonatges(ArrayList<Personatge> llista){
+        mPersonatges = llista;
     }
 
     public Personatge() {
@@ -116,9 +103,7 @@ public class Personatge implements Serializable {
     }
 
     public void setNom(String mNom) {
-        if (mNom.length() > 2) {
             this.mNom = mNom;
-        }
     }
 
     public void setSexe(Sexe mSexe) {
@@ -167,5 +152,30 @@ public class Personatge implements Serializable {
 
     public int calcularNivell() {
         return (getStrength() + getDexterity() + getConstitution() + getIntelligence() + getWisdom() + getCharisma()) / 6;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Personatge that = (Personatge) o;
+
+        if (mImage != that.mImage) return false;
+        if (mNom != null ? !mNom.equals(that.mNom) : that.mNom != null) return false;
+        if (mRasa != null ? !mRasa.equals(that.mRasa) : that.mRasa != null) return false;
+        if (mSexe != that.mSexe) return false;
+        return !(mOfici != null ? !mOfici.equals(that.mOfici) : that.mOfici != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mNom != null ? mNom.hashCode() : 0;
+        result = 31 * result + (mRasa != null ? mRasa.hashCode() : 0);
+        result = 31 * result + (mSexe != null ? mSexe.hashCode() : 0);
+        result = 31 * result + (mOfici != null ? mOfici.hashCode() : 0);
+        result = 31 * result + mImage;
+        return result;
     }
 }

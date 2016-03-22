@@ -1,7 +1,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="match_parent"
     android:background="@drawable/fons2"
     android:padding="3dp"
     tools:context=".MainActivity">
@@ -12,10 +12,11 @@
         android:layout_weight="1">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="STR"
+            android:text="S"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -34,10 +35,11 @@
         android:layout_weight="1">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DEX"
+            android:text="D"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -57,10 +59,11 @@
         android:layout_weight="1">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CON"
+            android:text="C"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -80,13 +83,15 @@
         android:layout_weight="1">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="INT"
+            android:text="I"
             android:textStyle="bold" />
 
         <LinearLayout
+            android:layout_gravity="center_vertical"
             android:id="@+id/llyIntelligence"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -102,12 +107,12 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-
         <TextView
+            android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WID"
+            android:text="W"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -127,10 +132,11 @@
         android:layout_weight="1">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CHR"
+            android:text="CH"
             android:textStyle="bold" />
 
         <LinearLayout

@@ -21,15 +21,36 @@
 
     <item>
         <selector xmlns:android="http://schemas.android.com/apk/res/android">
-            <item
-                android:drawable="@color/pressed"
-                android:state_activated="true" />
-            <item
-                android:drawable="@color/pressed"
-                android:state_selected="true" />
-            <item
-                android:drawable="@color/pressed"
-                android:state_checked="true" />
+            <item android:state_activated="true" >
+                <shape>
+                    <stroke
+                        android:width="9dp"
+                        android:color="@color/pressed">
+                    </stroke>
+                </shape>
+            </item>
+            <item android:state_selected="true" >
+                <shape>
+                    <stroke
+                        android:width="9dp"
+                        android:color="@color/pressed">
+                    </stroke>
+                </shape>
+            </item>
+            <item android:state_checked="true" >
+                <shape>
+                    <stroke
+                        android:width="9dp"
+                        android:color="@color/pressed">
+                    </stroke>
+                </shape>
+            </item>
+            <!--<item-->
+                <!--android:drawable="@color/pressed"-->
+                <!--android:state_selected="true" />-->
+            <!--<item-->
+                <!--android:drawable="@color/pressed"-->
+                <!--android:state_checked="true" />-->
         </selector>
     </item>
 

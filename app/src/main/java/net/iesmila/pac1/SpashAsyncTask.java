@@ -2,6 +2,8 @@ package net.iesmila.pac1;
 
 import android.os.AsyncTask;
 
+import net.iesmila.pac1.bd.DatabaseHelper;
+
 public class SpashAsyncTask extends AsyncTask<String, String, String> {
 
     private ActivityCarrega mActivity;
@@ -21,14 +23,18 @@ public class SpashAsyncTask extends AsyncTask<String, String, String> {
 
         String a = "Loading";
 
+        DatabaseHelper dbh = new DatabaseHelper(mActivity,"BD",1);
+        //dbh.onUpgrade(dbh.getReadableDatabase(),1,1);
+        dbh.consultes();
+        dbh.close();
+
         for (int i = 0; i < 100; i++) {
             try {
-                Thread.sleep(1);
+                Thread.sleep(1); //Simular un temps de carrega
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return "Error";
             }
-
             if (i % 10 == 0) {
                 a += ".";
                 if (a.endsWith("....")) a = "Loading.";

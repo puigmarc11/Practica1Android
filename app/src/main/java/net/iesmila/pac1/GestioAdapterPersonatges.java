@@ -23,6 +23,8 @@ import net.iesmila.pac1.model.Alignment;
 import net.iesmila.pac1.model.Personatge;
 import net.iesmila.pac1.model.Sexe;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,19 +57,31 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
         return position;
     }
 
+    public void removeAt(int idx) {
+        int idx2 = posicioRealLlistaOriginal(mLlistaPersonatgesFiltrada.get(idx));
+        mLlistaPersonatges.remove(idx2);
+        notifyDataSetChanged();
+        mFilter.filter("F");
+    }
+
+    public void filtrarLlista(String s) {
+        mFilter.setNomProf(s);
+        mFilter.filter("F");
+    }
+
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
 
-        //View v = super.getView(position, convertView, parent);
+        View v = super.getView(position, convertView, parent);
 
-        final LinearLayout v;
-
-        if (convertView != null) {
-            v = (LinearLayout) convertView;
-        } else {
-            LayoutInflater factory = LayoutInflater.from(this.getContext());
-            v = (LinearLayout) factory.inflate(R.layout.fila_gestio, parent, false);
-        }
+//        final LinearLayout v;
+//
+//        if (convertView != null) {
+//            v = (LinearLayout) convertView;
+//        } else {
+//            LayoutInflater factory = LayoutInflater.from(this.getContext());
+//            v = (LinearLayout) factory.inflate(R.layout.fila_gestio, parent, false);
+//        }
 
         Personatge p = mLlistaPersonatgesFiltrada.get(position);
         RowHolder holder = (RowHolder) v.getTag();
@@ -77,6 +91,7 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
 
             holder.imvImatgeGestioFila = (ImageView) v.findViewById(R.id.imvImatgeGestioFila);
             holder.txvNomGestioFila = (TextView) v.findViewById(R.id.txvNomGestioFila);
+            holder.txvOficiGestioFila = (TextView) v.findViewById(R.id.txvOficiGestioFila);
             holder.imvAlignmentGestioFila = (ImageView) v.findViewById(R.id.imvAlignmentGestioFila);
 
             holder.mLlyStrength = (LinearLayout) v.findViewById(R.id.llyStrength);
@@ -87,13 +102,14 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
             holder.mLlyCharisma = (LinearLayout) v.findViewById(R.id.llyCharisma);
 
             holder.imvSexeGestioFila = (ImageView) v.findViewById(R.id.imvSexeGestioFila);
+            holder.imvRasaGestioFila = (ImageView) v.findViewById(R.id.imvRasaGestioFila);
 
             v.setTag(holder);
         }
 
-
         holder.txvNomGestioFila.setText(p.getNom());
         holder.imvImatgeGestioFila.setImageResource(p.getImage());
+        holder.txvOficiGestioFila.setText(p.getOfici().toString() + " - (Lvl " + p.calcularNivell() + ")");
 
         if (p.getRasa().getAlignment().equals(Alignment.ALLIANCE)) {
             holder.imvAlignmentGestioFila.setImageResource(R.drawable.zzz1);
@@ -107,7 +123,12 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
             holder.imvSexeGestioFila.setImageResource(R.drawable.male);
         } else if (p.getSexe().equals(Sexe.FEMALE)) {
             holder.imvSexeGestioFila.setImageResource(R.drawable.female);
+        }else{
+            holder.imvSexeGestioFila.setImageResource(R.drawable.noimage);
         }
+
+        holder.imvRasaGestioFila.setImageResource(p.getRasa().getImatge());
+
 
         carregarAbilitats(p.getStrength(), holder.mLlyStrength);
         carregarAbilitats(p.getDexterity(), holder.mLlyDexterity);
@@ -119,26 +140,37 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.animacio_item_fila);
-               // v.setAnimation(anim);
+                //Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.animacio_item_fila);
+                // v.setAnimation(anim);
                 //anim.start();
                 Boolean a = checkItem((ListView) parent, position);
                 mActivity.habilitarBotons(a);
-                index = position;
+                Log.i("CCC", "Index" + String.valueOf(position));
             }
         });
 
         return v;
     }
 
-    private boolean checkItem(ListView listView, int position) {
+    public boolean checkItem(ListView listView, int position) {
         boolean isChecked = listView.isItemChecked(position);
         listView.setItemChecked(position, !isChecked);
+        index = position;
         return !isChecked;
     }
 
     public int getIndex() {
         return index;
+    }
+
+    public int posicioRealLlistaOriginal(Personatge p) {
+        int i;
+        for (i = 0; i < mLlistaPersonatges.size(); i++) {
+            if (mLlistaPersonatges.get(i).equals(p)) {
+                break;
+            }
+        }
+        return i;
     }
 
     public Filter getFilter() {
@@ -147,14 +179,14 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
 
     private void carregarAbilitats(int NivellAbilitat, LinearLayout l) {
 
-        int Nivell = NivellAbilitat / 9;
+        int Nivell = NivellAbilitat / 8;
 
         int color;
 
-        if (Nivell == 0 || Nivell < 3) color = mActivity.getResources().getColor(R.color.estat1);
-        else if (Nivell == 3 || Nivell < 6)
+        if (Nivell == 0 || Nivell < 4) color = mActivity.getResources().getColor(R.color.estat1);
+        else if (Nivell == 4 || Nivell < 8)
             color = mActivity.getResources().getColor(R.color.estat2);
-        else if (Nivell == 6 || Nivell < 8)
+        else if (Nivell == 8 || Nivell < 10)
             color = mActivity.getResources().getColor(R.color.estat3);
         else color = mActivity.getResources().getColor(R.color.estat4);
 
@@ -177,7 +209,7 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
             im.setImageResource(R.drawable.quadrat_estat);
             im.getDrawable().setColorFilter(color, PorterDuff.Mode.ADD);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(20, LinearLayout.LayoutParams.MATCH_PARENT);
-            lp.setMargins(2, 0, 0, 0);
+            //lp.setMargins(0, 0, 0, 0);
             l.addView(im, lp);
         }
     }
@@ -185,6 +217,7 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
     private static class RowHolder {
         ImageView imvImatgeGestioFila;
         TextView txvNomGestioFila;
+        TextView txvOficiGestioFila;
         ImageView imvAlignmentGestioFila;
 
         LinearLayout mLlyStrength;
@@ -195,6 +228,7 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
         LinearLayout mLlyCharisma;
 
         ImageView imvSexeGestioFila;
+        ImageView imvRasaGestioFila;
 
         public RowHolder() {
         }
@@ -202,6 +236,13 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
     }
 
     private class ItemFilter extends Filter {
+
+        private String mNomProf;
+
+        public void setNomProf(String s) {
+            mNomProf = s;
+        }
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
@@ -209,23 +250,22 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
             final List<Personatge> list = mLlistaPersonatges;
             final ArrayList<Personatge> nlist = new ArrayList<>(list.size());
 
-            if (constraint != null) {
+            if (constraint != null && mNomProf != null) {
 
                 for (Personatge p : list) {
-                    if (p.getNom().toLowerCase().contains(constraint)) {
+                    if (p.getNom().toLowerCase().contains(mNomProf)) {
                         nlist.add(p);
                     }
                 }
                 results.values = nlist;
                 results.count = nlist.size();
-
-                Log.i("ZZZ", String.valueOf(nlist.size()));
-
             } else {
+                mNomProf = null;
                 results.values = mLlistaPersonatges;
                 results.count = mLlistaPersonatges.size();
-            }
 
+            }
+            Log.i("XXX", "FILTRE: " + String.valueOf(results.count));
             return results;
         }
 
@@ -233,8 +273,8 @@ public class GestioAdapterPersonatges extends ArrayAdapter<Personatge> implement
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mLlistaPersonatgesFiltrada = (ArrayList<Personatge>) results.values;
-
             notifyDataSetChanged();
+            if (results.count == 0) mActivity.habilitarBotons(false);
         }
 
     }

@@ -1,7 +1,5 @@
 package net.iesmila.pac1;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,9 +9,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ActivityCarrega extends ActionBarActivity {
 
@@ -77,14 +73,12 @@ public class ActivityCarrega extends ActionBarActivity {
     }
 
     public void mostrarErrorDescarrega() {
-        Log.i("PAC2", "Error en carregar proces spashScreen");
+        Log.e("PAC2", "Error en carregar proces spashScreen");
     }
 
     public void fiDescarrega(String name) {
         mfrlSpashScreen.setVisibility(View.INVISIBLE);
         mllySplashScreen.setVisibility(View.VISIBLE);
-        Log.i("PAC2", "Final spash screen: " + name);
-        Toast.makeText(this, name, Toast.LENGTH_LONG).show();
     }
 
     ///////////////

@@ -1,10 +1,7 @@
 package net.iesmila.pac1.model;
 
-/*
-public enum Rasa {
-    ELF, HUMAN, ORC, DRAGON, DWARF
-}*/
 
+import android.support.v4.app.INotificationSideChannel;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -17,17 +14,18 @@ public class Rasa implements Serializable {
     private static List<Rasa> mLlistaRacesHorde;
     private static List<Rasa> mLlistaRacesNeutral;
 
+    private static List<Integer> mLlistaImatges;
+
     private int mCodi;
     private String mRasa;
     private Alignment mAlignment;
+    private int mImatge;
 
-    public Rasa(int mCodi, String mRasa, Alignment mAlignment) {
-      /*  if (!setRasa(mRasa,mAlignment)){
-            throw new RuntimeException("Rasa i Alignment no son compatibles...");
-        }*/
+    public Rasa(int mCodi, String mRasa, Alignment mAlignment, int mImatge) {
         this.mCodi = mCodi;
         this.mRasa = mRasa;
         this.mAlignment = mAlignment;
+        this.mImatge = mImatge;
     }
 
     public String getRasa() {
@@ -42,63 +40,32 @@ public class Rasa implements Serializable {
         return mAlignment;
     }
 
-//    public boolean setRasa(String mRasa, Alignment mAlignment) {
-//        if (Rasa.rasaCorrecta(mRasa, mAlignment)){
-//            this.mRasa = mRasa;
-//            this.mAlignment = mAlignment;
-//            return true;
-//        }
-//        return false;
-//    }
+    public int getImatge(){return mImatge;}
 
     public static List<Rasa> getRaces(Alignment alignment) {
 
         switch (alignment) {
             case ALLIANCE:
-                if (mLlistaRacesAlliance == null) {
-                    mLlistaRacesAlliance = new ArrayList<>();
-                    mLlistaRacesAlliance.add(new Rasa(1, "Humano", Alignment.ALLIANCE));
-                    mLlistaRacesAlliance.add(new Rasa(2, "Draenei", Alignment.ALLIANCE));
-                    mLlistaRacesAlliance.add(new Rasa(3, "Enano", Alignment.ALLIANCE));
-                    mLlistaRacesAlliance.add(new Rasa(4, "Elfo", Alignment.ALLIANCE));
-                }
                 return mLlistaRacesAlliance;
-
             case HORDE:
-                if (mLlistaRacesHorde == null) {
-                    mLlistaRacesHorde = new ArrayList<>();
-                    mLlistaRacesHorde.add(new Rasa(1, "Orco", Alignment.HORDE));
-                    mLlistaRacesHorde.add(new Rasa(2, "Goblin", Alignment.HORDE));
-                    mLlistaRacesHorde.add(new Rasa(3, "Troll", Alignment.HORDE));
-                    mLlistaRacesHorde.add(new Rasa(4, "Undead", Alignment.HORDE));
-//                    mLlistaRacesHorde.add(new Rasa(3,"Tauren", Alignment.HORDE));
-
-                }
                 return mLlistaRacesHorde;
-
             case NEUTRAL:
-                if (mLlistaRacesNeutral == null) {
-                    mLlistaRacesNeutral = new ArrayList<>();
-                    mLlistaRacesNeutral.add(new Rasa(1, "Aspecto", Alignment.NEUTRAL));
-                    mLlistaRacesNeutral.add(new Rasa(2, "Dragon", Alignment.NEUTRAL));
-                }
                 return mLlistaRacesNeutral;
-
             default:
                 throw new RuntimeException("Tipus Erroni");
         }
     }
 
-    public static boolean rasaCorrecta(String mRasa, Alignment mAlignment) {
+    public static void setLlistaRasa(ArrayList<Rasa> llistaR, Alignment a) {
 
-        List<Rasa> rases = getRaces(mAlignment);
-
-        for (Rasa s : rases) {
-            if (s.equals(mRasa)) {
-                return true;
-            }
+        switch (a) {
+            case ALLIANCE:
+                mLlistaRacesAlliance = llistaR;
+            case HORDE:
+                mLlistaRacesHorde = llistaR;
+            case NEUTRAL:
+                mLlistaRacesNeutral = llistaR;
         }
-        return false;
     }
 
     public static Rasa getRasaPerCodi(int codi, Alignment mAlignment) {
@@ -116,6 +83,11 @@ public class Rasa implements Serializable {
     public String toString() {
         return mRasa;
     }
+
+    public static List<Integer> getAllImages(){
+        return mLlistaImatges;
+    }
+
 }
 
 

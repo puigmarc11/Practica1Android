@@ -7,19 +7,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import net.iesmila.pac1.model.Alignment;
 import net.iesmila.pac1.model.Imatge;
@@ -28,11 +23,8 @@ import net.iesmila.pac1.model.Personatge;
 import net.iesmila.pac1.model.Rasa;
 import net.iesmila.pac1.model.Sexe;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -61,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
     private ImageView mImvAnteriorImatge;
     private ImageView mImvSeguentImatge;
     private ImageView mImvVisualitzarPersonatge;
-    private ImageView mImvNouPersonatge;
+    private ImageView mImvBack;
 
     private EditText mEdtNom;
     private EditText mEdtDescripcio;
@@ -73,17 +65,18 @@ public class MainActivity extends ActionBarActivity {
     private SeekBar mSbWisdom;
     private SeekBar mSbCharisma;
 
-    private ListIterator<Personatge> lItPersonatge;
-    private int CanviSentitPersonatge = -1;
+//    private ListIterator<Personatge> lItPersonatge;
+//    private int CanviSentitPersonatge = -1;
 
-    private ListIterator<Imatge> lItImatge;
-    private int CanviSentitImatge = -1;
+//    private ListIterator<Imatge> lItImatge;
+//    private int CanviSentitImatge = -1;
 
     private Personatge PersonatgeActual = null;
     private Boolean PersonatgeNou = false;
     private Boolean VisualitzarPersonatge = false;
 
-
+    private int mPosPersonatge = 0;
+    private int mPosImatgePersonatge = 0;
 
     private void BuscarViewById() {
 
@@ -93,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
         mImvAnteriorImatge = (ImageView) findViewById(R.id.imvImatgeAnterior);
         mImvSeguentImatge = (ImageView) findViewById(R.id.imvImatgeSeguent);
         mImvVisualitzarPersonatge = (ImageView) findViewById(R.id.imvVisualitzarPersonatge);
-        mImvNouPersonatge = (ImageView) findViewById(R.id.imvNouPersonatge);
+        mImvBack = (ImageView) findViewById(R.id.imvNouPersonatge);
 
         mEdtNom = (EditText) findViewById(R.id.edtNom);
         mEdtDescripcio = (EditText) findViewById(R.id.edtDescripcio);
@@ -167,7 +160,6 @@ public class MainActivity extends ActionBarActivity {
         mImvVisualitzarPersonatge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityVisualitzar av = new ActivityVisualitzar();
                 Intent intent = new Intent(MainActivity.this, ActivityVisualitzar.class);
                 intent.putExtra("Personatge", PersonatgeActual);
                 startActivity(intent);
@@ -175,20 +167,13 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //Crear un nou personatge
-        mImvNouPersonatge.setOnClickListener(new View.OnClickListener() {
+        mImvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Personatge p = new Personatge();
-                PersonatgeNou = true;
-                //Iniciem el personatge amb dades per no tenir problemes de NullPointer...
-                //Aquest personatge encara no s'afegeix SearchableAdapter la llista per evitar crear molts personatges seguits.
-                //s'afegira SearchableAdapter la llista un cop haguem introduit un nom.
-                p.setSexe(Sexe.MALE);
-                p.setRasa(Rasa.getRasaPerCodi(1, Alignment.ALLIANCE));
-                p.setOfici(Ofici.getOficiPerCodi(1));
-                p.setImage(0);
-                Log.i("Personatge", "Nou Personatge --> Imatge" + p.getImage());
-                mostrarPersonatge(p);
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(ActivityGestio.REBRE_DADES, mPosPersonatge);
+                setResult(MainActivity.RESULT_OK, resultIntent);
+                finish();
             }
         });
     }
@@ -198,6 +183,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        mPosPersonatge = getIntent().getIntExtra(ActivityGestio.ENVIAR_DADES, 0);
 
         //Busquem TOTES les View
         BuscarViewById();
@@ -205,53 +191,65 @@ public class MainActivity extends ActionBarActivity {
         //Definim els events
         DefinirEvntsDeLesView();
 
-        Log.d("XXX", "Debug");
-        Log.i("XXX","inf");
-
         iniciarAplicacio();
 
     }
 
     private void iniciarAplicacio() {
         mLlistaPersonatges = Personatge.getPersonatges();
-        lItPersonatge = mLlistaPersonatges.listIterator();
+        //lItPersonatge = mLlistaPersonatges.listIterator();
         carregarSpinnerOfici();
         Log.i("Personatge", "Inici de l'aplicacio");
-        mostrarPersonatge(lItPersonatge.next());
+
+        if (mPosPersonatge == -1) {
+            Personatge p = new Personatge();
+            PersonatgeNou = true;
+            //Iniciem el personatge amb dades per no tenir problemes de NullPointer...
+            //Aquest personatge encara no s'afegeix a la llista per evitar crear molts personatges seguits.
+            //s'afegira a la llista un cop haguem introduit un nom.
+            p.setSexe(Sexe.MALE);
+            p.setRasa(Rasa.getRasaPerCodi(1, Alignment.ALLIANCE));
+            p.setOfici(Ofici.getOficiPerCodi(1));
+            p.setImage(0);
+            Log.i("Personatge", "Nou Personatge -->");
+            mostrarPersonatge(p);
+        } else {
+            mostrarPersonatge(mLlistaPersonatges.get(mPosPersonatge));
+        }
     }
 
     private void carregarImatges(Sexe mSexe, Rasa mRasa) {
-
+        //Ha estat modificat a una forma mes simple
         mLlistaImatges = Imatge.getImages(mSexe, mRasa);
 
         if (mLlistaImatges.size() > 1) {
-            int ii;
-            lItImatge = mLlistaImatges.listIterator();
+            int i;
             Boolean trobada = false;
-            while (lItImatge.hasNext()) {
-                ii = lItImatge.next().getImageResourceId();
-                PersonatgeActual.getImage();
-                if (ii == PersonatgeActual.getImage()) {
-                    mImvFotoPersonatge.setImageResource(ii);
+            for (i = 0; i < mLlistaImatges.size(); i++) {
+                if (mLlistaImatges.get(i).getImageResourceId() == PersonatgeActual.getImage()) {
+                    mImvFotoPersonatge.setImageResource(mLlistaImatges.get(i).getImageResourceId());
                     trobada = true;
                     break;
                 }
             }
+
             if (!trobada) {
-                lItImatge = mLlistaImatges.listIterator();
-                ii = lItImatge.next().getImageResourceId();
-                mImvFotoPersonatge.setImageResource(ii);
-                PersonatgeActual.setImage(ii);
+                i = 0;
+                mImvFotoPersonatge.setImageResource(mLlistaImatges.get(i).getImageResourceId());
+                PersonatgeActual.setImage(mLlistaImatges.get(i).getImageResourceId());
             }
-            CanviSentitImatge = 1;
+
+            mPosImatgePersonatge = i;
+
         } else if (mLlistaImatges.size() == 1) {
             //Optimitzacio per si la llista d'imatges només en té una
             mImvFotoPersonatge.setImageResource(mLlistaImatges.get(0).getImageResourceId());
             PersonatgeActual.setImage(mLlistaImatges.get(0).getImageResourceId());
         } else {
-            lItImatge = null;
-            PersonatgeActual.setImage(0);
-            mImvFotoPersonatge.setImageResource(0);
+            PersonatgeActual.setImage(R.drawable.noimage);
+            mImvFotoPersonatge.setImageResource(R.drawable.noimage);
+            //Indiquem que no no hi ha imatges per poder deshabilitar els botons
+            mPosImatgePersonatge = -1;
         }
     }
 
@@ -330,7 +328,8 @@ public class MainActivity extends ActionBarActivity {
         mSbWisdom.setProgress(p.getWisdom());
         mSbCharisma.setProgress(p.getCharisma());
 
-        //Si fem Personatges nous seguits, (SearchableAdapter paritr del segon), aquets no fan saltar events dels radio buttons change, pertant
+
+        //Si fem Personatges nous seguits, (a paritr del segon), aquets no fan saltar events dels radio buttons change, pertant
         //no s'actualitza la llista d'imatges i la forçem aqui al final abans de seleccionar la imatge.
         if (PersonatgeNou) {
             carregarImatges(PersonatgeActual.getSexe(), PersonatgeActual.getRasa());
@@ -341,61 +340,30 @@ public class MainActivity extends ActionBarActivity {
 
         mEdtDescripcio.setText(p.getDescription());
 
-        //Tornem el flag SearchableAdapter l'esta perque saltin events
+        //Tornem el flag a l'esta perque saltin events
         VisualitzarPersonatge = false;
     }
 
     //Classe per canviar de personatges.
     //Conte un flag per saber si és canvia la direcció del llistat(Hem de realitzar un doble next//previous
-    //Si s'arriva SearchableAdapter un dels dos extrems es torna SearchableAdapter generar l'itarador. O bé pel principi de la llista o bé per el final. Serveix per tenir la llista circular.
+    //Si s'arriva a un dels dos extrems es torna a generar l'itarador. O bé pel principi de la llista o bé per el final. Serveix per tenir la llista circular.
     class SeguentPersonatge implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
 
-            Boolean reiniciarIterator = false;
-            if (PersonatgeNou) PersonatgeNou = false;
-
             switch (view.getId()) {
                 case R.id.imvSeguentPersonatge:
-
-                    if (CanviSentitPersonatge == -1) CanviSentitPersonatge = 1;
-
-                    if (lItPersonatge.hasNext()) {
-                        if (CanviSentitPersonatge == 0) {
-                            CanviSentitPersonatge = 1;
-                            lItPersonatge.next();
-                            if (lItPersonatge.hasNext()) mostrarPersonatge(lItPersonatge.next());
-                            else reiniciarIterator = true;
-                        } else mostrarPersonatge(lItPersonatge.next());
-                    } else reiniciarIterator = true;
-
-                    if (reiniciarIterator) {
-                        lItPersonatge = mLlistaPersonatges.listIterator();
-                        mostrarPersonatge(lItPersonatge.next());
-                    }
+                    mPosPersonatge++;
+                    if (mPosPersonatge >= mLlistaPersonatges.size()) mPosPersonatge = 0;
                     break;
-
                 case R.id.imvAnteriorPersonatge:
-
-                    if (CanviSentitPersonatge == -1) CanviSentitPersonatge = 0;
-
-                    if (lItPersonatge.hasPrevious()) {
-                        if (CanviSentitPersonatge == 1) {
-                            CanviSentitPersonatge = 0;
-                            lItPersonatge.previous();
-                            if (lItPersonatge.hasPrevious())
-                                mostrarPersonatge(lItPersonatge.previous());
-                            else reiniciarIterator = true;
-                        } else mostrarPersonatge(lItPersonatge.previous());
-                    } else reiniciarIterator = true;
-
-                    if (reiniciarIterator) {
-                        lItPersonatge = mLlistaPersonatges.listIterator(mLlistaPersonatges.size());
-                        mostrarPersonatge(lItPersonatge.previous());
-                    }
+                    mPosPersonatge--;
+                    if (mPosPersonatge < 0) mPosPersonatge = mLlistaPersonatges.size() - 1;
                     break;
             }
+
+            mostrarPersonatge(mLlistaPersonatges.get(mPosPersonatge));
         }
     }
 
@@ -406,52 +374,22 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View view) {
 
-            //Evitem recorre el switch si no hi ha imatges, o bé si la llista només en té una.
-            if (lItImatge == null || mLlistaImatges.size() == 1) return;
-            int imatge = 0; //Per inicialitzar la variable
-            Boolean reiniciarIterator = false;
+            if (mPosImatgePersonatge == -1) return;
 
             switch (view.getId()) {
                 case R.id.imvImatgeSeguent:
-
-                    if (CanviSentitImatge == -1) CanviSentitImatge = 1;
-
-                    if (lItImatge.hasNext()) {
-                        if (CanviSentitImatge == 0) {
-                            CanviSentitImatge = 1;
-                            imatge = lItImatge.next().getImageResourceId();
-                            if (lItImatge.hasNext()) imatge = lItImatge.next().getImageResourceId();
-                            else reiniciarIterator = true;
-                        } else imatge = lItImatge.next().getImageResourceId();
-                    } else reiniciarIterator = true;
-
-                    if (reiniciarIterator) {
-                        lItImatge = mLlistaImatges.listIterator();
-                        imatge = lItImatge.next().getImageResourceId();
-                    }
+                    mPosImatgePersonatge++;
+                    if (mPosImatgePersonatge >= mLlistaImatges.size()) mPosImatgePersonatge = 0;
                     break;
 
                 case R.id.imvImatgeAnterior:
-
-                    if (CanviSentitImatge == -1) CanviSentitImatge = 0;
-
-                    if (lItImatge.hasPrevious()) {
-                        if (CanviSentitImatge == 1) {
-                            CanviSentitImatge = 0;
-                            imatge = lItImatge.previous().getImageResourceId();
-                            if (lItImatge.hasPrevious())
-                                imatge = lItImatge.previous().getImageResourceId();
-                            else reiniciarIterator = true;
-                        } else imatge = lItImatge.previous().getImageResourceId();
-                    } else reiniciarIterator = true;
-
-                    if (reiniciarIterator) {
-                        lItImatge = mLlistaImatges.listIterator(mLlistaImatges.size());
-                        imatge = lItImatge.previous().getImageResourceId();
-                    }
+                    mPosImatgePersonatge--;
+                    if (mPosImatgePersonatge <= 0)
+                        mPosImatgePersonatge = mLlistaImatges.size() - 1;
                     break;
             }
 
+            int imatge = mLlistaImatges.get(mPosImatgePersonatge).getImageResourceId();
             mImvFotoPersonatge.setImageResource(imatge);
             PersonatgeActual.setImage(imatge);
         }
@@ -499,7 +437,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //Classe per actualitzar els spinners de ofici i rasa
-    //També s'actualitza indirectament l'alignment ja que aquest va lligat SearchableAdapter la rasa i només és gestiona en
+    //També s'actualitza indirectament l'alignment ja que aquest va lligat a la rasa i només és gestiona en
     //un lloc per no tenir conflictes d'events
     class ItemSpinner implements AdapterView.OnItemSelectedListener {
 
@@ -553,7 +491,8 @@ public class MainActivity extends ActionBarActivity {
                     if (PersonatgeNou && mEdtNom.getText().length() > 1) {
                         mLlistaPersonatges.add(PersonatgeActual);
                         PersonatgeNou = false;
-                        lItPersonatge = mLlistaPersonatges.listIterator(mLlistaPersonatges.size());
+                        mPosPersonatge = mLlistaPersonatges.size()-1;
+                        // lItPersonatge = mLlistaPersonatges.listIterator(mLlistaPersonatges.size());
                     }
                     break;
                 case R.id.edtDescripcio:
